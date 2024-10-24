@@ -10,8 +10,6 @@ from django.contrib import admin
 from drf_yasg import openapi
 from api import views
 
-if settings.DEBUG:
-    urlpatterns = static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 route = routers.DefaultRouter()
 
@@ -37,6 +35,10 @@ urlpatterns = [
    path('admin/', admin.site.urls),
    path('', include(route.urls)),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
 # urlpatterns += [
 #    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
 #    path('api/token/refresh/', TokenRefreshView.as_view(), nanme='token_refresh'),
