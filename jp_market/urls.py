@@ -1,12 +1,17 @@
 from rest_framework_simplejwt.views import (TokenObtainPairView, TokenRefreshView,)
 from api.src import viewsets as marketviewset
+from django.conf.urls.static import static
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 from django.urls import path, include
 from rest_framework import routers
+from django.conf import settings
 from django.contrib import admin
 from drf_yasg import openapi
 from api import views
+
+if settings.DEBUG:
+    urlpatterns = static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 route = routers.DefaultRouter()
 
@@ -32,7 +37,7 @@ urlpatterns = [
    path('admin/', admin.site.urls),
    path('', include(route.urls)),
 ]
-urlpatterns += [
-   path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-   path('api/token/refresh/', TokenRefreshView.as_view(), nanme='token_refresh'),
-]
+# urlpatterns += [
+#    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+#    path('api/token/refresh/', TokenRefreshView.as_view(), nanme='token_refresh'),
+# ]

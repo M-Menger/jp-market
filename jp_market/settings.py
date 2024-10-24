@@ -1,5 +1,17 @@
 from pathlib import Path
 from datetime import timedelta
+from decouple import config
+import dj_database_url
+import os
+
+DB_URL = config('DB_URL', default=os.environ.get('DB_URL', None))
+DATABASES = {
+    'default': dj_database_url.config(
+        default=DB_URL
+    )
+}
+
+STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,11 +40,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework_simplejwt',
     'rest_framework',
+    'corsheaders'
     'drf_yasg',
     'api',
 ]
 
+CORS_ALLOWED_ORIGINS = ["http://localhost:5173"]
+
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware'
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
